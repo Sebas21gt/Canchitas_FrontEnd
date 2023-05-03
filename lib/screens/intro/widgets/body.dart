@@ -28,10 +28,11 @@ class Body extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "BIENVENIDO A \nLAS CANCHITAS!",
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 38),
+                        fontSize: 80,
+                        fontFamily: 'SportsBar',
+                      ),
                   ),
                   const Spacer(),
                 ],
@@ -44,12 +45,36 @@ class Body extends StatelessWidget {
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: cdefaultPadding),
-                  height: 150,
+                  height: 250,
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           image: AssetImage("assets/images/logo_1.png"))),
-                )),
+                )
+            ),
+            Container(
+              padding: const EdgeInsets.only(
+                  left: cdefaultPadding, right: cdefaultPadding, bottom: 250),
+              height: size.height * 0.25,
+              decoration: const BoxDecoration(
+                  color: cPrimaryColor,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(35),
+                      bottomRight: Radius.circular(35))),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "BIENVENIDO A \nLAS CANCHITAS!",
+                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                        color: Colors.white,
+                        fontSize: 80,
+                        fontFamily: 'SportsBar',
+                      ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            )
           ]),
         )
       ],

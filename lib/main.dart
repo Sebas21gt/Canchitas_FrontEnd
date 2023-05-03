@@ -14,13 +14,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Canchitas App',
       theme: ThemeData(
-        //fontFamily: 'Sports Bar',
+        fontFamily: 'SportsBar',
         scaffoldBackgroundColor: cBackgroundColor,
         primaryColor: cPrimaryColor,
         textTheme: Theme.of(context).textTheme.apply(bodyColor: cTextColor),
         visualDensity: VisualDensity.adaptivePlatformDensity
       ),
       home: const IntroScreen(),
+
     );
   }
 }

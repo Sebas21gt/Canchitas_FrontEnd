@@ -1,5 +1,6 @@
 
 import 'package:canchitas/screens/intro/widgets/body.dart';
+import 'package:canchitas/screens/intro/widgets/welcome.dart';
 import 'package:flutter/material.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Body()
+      body: WelcomeScreen()
     );
   }
 }
