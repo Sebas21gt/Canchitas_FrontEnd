@@ -1,118 +1,9 @@
-import 'package:canchitas/constants.dart';
-import 'package:canchitas/screens/home/widgets/body.dart';
-import 'package:canchitas/screens/welcome/intro_screen.dart';
 import 'package:flutter/material.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+import '../../../constants.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _CustomBody(),
-    );
-  }
-}
-
-class _CustomBody extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Column(children: [
-      _Welcome(size: size),
-      _RegisterLoginButtons(size: size),
-    ]);
-  }
-}
-
-class _RegisterLoginButtons extends StatelessWidget {
-  const _RegisterLoginButtons({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
-      height: size.height * 0.30,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: cBackgroundColor,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              _CustomButton(
-                  text: "LOG IN",
-                  colorBorder: cPrimaryColor,
-                  colorText: cPrimaryColor,
-                  colorBackground: Colors.white),
-              SizedBox(width: 40),
-              _CustomButton(
-                  text: "Registrarse",
-                  colorBorder: Colors.white,
-                  colorText: Colors.white,
-                  colorBackground: cPrimaryColor),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class _CustomButton extends StatelessWidget {
-  final String text;
-  final Color colorBorder;
-  final Color colorText;
-  final Color colorBackground;
-  const _CustomButton({
-    Key? key,
-    required this.text,
-    required this.colorBorder,
-    required this.colorText,
-    required this.colorBackground,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: 130,
-      child: ElevatedButton(
-        onPressed: () {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => const Body()));
-          print("Registrarse Button");
-        },
-        style: ButtonStyle(
-            elevation: const MaterialStatePropertyAll(15),
-            backgroundColor: MaterialStatePropertyAll(colorBackground),
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                  side: BorderSide(color: colorBorder, width: 3),
-                  borderRadius: const BorderRadius.all(Radius.circular(30))),
-            )),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontFamily: "SportsBar",
-            fontSize: 20,
-            color: colorText,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Welcome extends StatelessWidget {
-  const _Welcome({
+class Welcome extends StatelessWidget {
+  const Welcome({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -152,8 +43,8 @@ class _Welcome extends StatelessWidget {
           const SizedBox(height: 40),
           Image.asset(
             "assets/images/logo_1.png",
-            height: 100,
-            width: 100,
+            height: 180,
+            width: 180,
           ),
         ],
       ),
