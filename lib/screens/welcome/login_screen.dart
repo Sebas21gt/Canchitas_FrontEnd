@@ -1,4 +1,3 @@
-import 'package:canchitas/screens/welcome/widgets/welcome.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -18,10 +17,7 @@ class _CustomBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Column(children: [
-      Encabezado(size: size),
-      LogInForm(size: size)
-    ]);
+    return Column(children: [Encabezado(size: size), LogInForm(size: size)]);
   }
 }
 
@@ -36,7 +32,7 @@ class Encabezado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
       height: size.height * 0.40,
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -46,18 +42,19 @@ class Encabezado extends StatelessWidget {
               bottomRight: Radius.circular(35))),
       child: Column(
         children: [
-          const SizedBox(height: 40),
           Image.asset(
             "assets/images/logo_1.png",
             height: 150,
             width: 150,
           ),
-          // const SizedBox(height: 40),
-          Text(
-            "LAS CANCHITAS",
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: Colors.white, fontSize: 50, fontFamily: 'SportsBar'),
-            textAlign: TextAlign.start,
+          // const SizedBox(height: 20),
+          Center(
+            child: Text(
+              "LAS CANCHITAS",
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  color: Colors.white, fontSize: 50, fontFamily: 'SportsBar'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
@@ -76,25 +73,62 @@ class LogInForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
       height: size.height * 0.60,
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: cBackgroundColor,
-      ),
+      decoration: const BoxDecoration(color: cBackgroundColor),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [
-              
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  labelText: "Correo",
+                  labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                  hintText: "Ingrese su correo",
+                  hintStyle: TextStyle(
+                      color: cTextColor, fontFamily: "SportsBar", fontSize: 18),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  suffixIcon: Icon(
+                    Icons.mail_outline,
+                    color: cPrimaryColor,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 5),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  labelText: "Contraseña",
+                  labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                  hintText: "Ingrese su contraseña",
+                  hintStyle: TextStyle(
+                      color: cTextColor, fontFamily: "SportsBar", fontSize: 18),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  suffixIcon: Icon(
+                    Icons.lock_outline,
+                    color: cPrimaryColor,
+                  ),
+                  counterText: "Olvidé mi contraseña",
+                  counterStyle: TextStyle(
+                      color: cPrimaryColor, fontFamily: "SportsBar", fontSize: 18),
+                  semanticCounterText: "Olvidé mi contraseña"
+                ),
+              ),
+              const SizedBox(height: 80),
               _CustomButton(
                   text: "Iniciar Sesión",
                   colorBorder: Colors.white,
                   colorText: Colors.white,
                   colorBackground: cPrimaryColor,
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, "/registerScreen");
                   }),
             ],
@@ -117,7 +151,7 @@ class _CustomButton extends StatelessWidget {
     required this.text,
     required this.colorBorder,
     required this.colorText,
-    required this.colorBackground, 
+    required this.colorBackground,
     this.onTap,
   }) : super(key: key);
 
