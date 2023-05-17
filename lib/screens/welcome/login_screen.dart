@@ -83,59 +83,91 @@ class LogInForm extends StatelessWidget {
         children: [
           Column(
             children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelText: "Correo",
-                  labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                  hintText: "Ingrese su correo",
-                  hintStyle: TextStyle(
-                      color: cTextColor, fontFamily: "SportsBar", fontSize: 18),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  suffixIcon: Icon(
-                    Icons.mail_outline,
-                    color: cPrimaryColor,
+              Form(
+                  child: Column(
+                children: [
+                  _correo(),
+                  const SizedBox(height: 40),
+                  _password(),
+                  InkWell(
+                    onTap: () {
+                      // ignore: avoid_print
+                      print("Olvidé mi contraseña");
+                    },
+                    child: const Text(
+                      "Olvidé mi contraseña",
+                      style: TextStyle(
+                          color: cPrimaryColor,
+                          fontFamily: "SportsBar",
+                          fontSize: 18),
+                      textAlign: TextAlign.end,
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green, width: 5),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelText: "Contraseña",
-                  labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                  hintText: "Ingrese su contraseña",
-                  hintStyle: TextStyle(
-                      color: cTextColor, fontFamily: "SportsBar", fontSize: 18),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  suffixIcon: Icon(
-                    Icons.lock_outline,
-                    color: cPrimaryColor,
-                  ),
-                  counterText: "Olvidé mi contraseña",
-                  counterStyle: TextStyle(
-                      color: cPrimaryColor, fontFamily: "SportsBar", fontSize: 18),
-                  semanticCounterText: "Olvidé mi contraseña"
-                ),
-              ),
-              const SizedBox(height: 80),
-              _CustomButton(
-                  text: "Iniciar Sesión",
-                  colorBorder: Colors.white,
-                  colorText: Colors.white,
-                  colorBackground: cPrimaryColor,
-                  onTap: () {
-                    Navigator.pushNamed(context, "/registerScreen");
-                  }),
+                  const SizedBox(height: 80),
+                  _CustomButton(
+                      text: "Iniciar Sesión",
+                      colorBorder: Colors.white,
+                      colorText: Colors.white,
+                      colorBackground: cPrimaryColor,
+                      onTap: () {
+                        Navigator.pushNamed(context, "/registerScreen");
+                      }),
+                ],
+              )),
             ],
           )
         ],
       ),
     );
+  }
+
+  TextFormField _password() {
+    return TextFormField(
+                  validator: (value) => value!.length < 6
+                      ? "La contraseña debe tener al menos 6 caracteres"
+                      : null,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 5),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    labelText: "Contraseña",
+                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                    hintText: "Ingrese su contraseña",
+                    hintStyle: TextStyle(
+                        color: cTextColor,
+                        fontFamily: "SportsBar",
+                        fontSize: 18),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: Icon(
+                      Icons.lock_outline,
+                      color: cPrimaryColor,
+                    ),
+                  ),
+                );
+  }
+
+  TextFormField _correo() {
+    return TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: cPrimaryColor, width: 20),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    labelText: "Correo",
+                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                    hintText: "Ingrese su correo",
+                    hintStyle: TextStyle(
+                        color: cTextColor,
+                        fontFamily: "SportsBar",
+                        fontSize: 18),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: Icon(
+                      Icons.mail_outline,
+                      color: cPrimaryColor,
+                    ),
+                  ),
+                );
   }
 }
 
