@@ -36,7 +36,7 @@ class _RegisterLoginButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 80),
       height: size.height * 0.30,
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -53,7 +53,7 @@ class _RegisterLoginButtons extends StatelessWidget {
                   colorBorder: cPrimaryColor,
                   colorText: cPrimaryColor,
                   colorBackground: Colors.white),
-              SizedBox(width: 40),
+              SizedBox(width: 80),
               _CustomButton(
                   text: "Registrarse",
                   colorBorder: Colors.white,
@@ -83,8 +83,8 @@ class _CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
-      width: 130,
+      height: 80,
+      width: 180,
       child: ElevatedButton(
         onPressed: () {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => const Body()));
@@ -102,7 +102,7 @@ class _CustomButton extends StatelessWidget {
           text,
           style: TextStyle(
             fontFamily: "SportsBar",
-            fontSize: 20,
+            fontSize: 30,
             color: colorText,
           ),
         ),
@@ -136,7 +136,7 @@ class _Welcome extends StatelessWidget {
           Text(
             "BIENVENIDO A \nLAS CANCHITAS!",
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: Colors.white, fontSize: 50, fontFamily: 'SportsBar'),
+                color: Colors.white, fontSize: 80, fontFamily: 'SportsBar'),
             textAlign: TextAlign.start,
           ),
           const SizedBox(height: 40),
@@ -144,7 +144,7 @@ class _Welcome extends StatelessWidget {
             "Encuentra torneos, reserva \ncanchas y mantente al tanto de \nlos campeonatos en tu área. \n¡No te pierdas ningún juego!",
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 35,
                   fontFamily: 'SportsBar',
                 ),
             textAlign: TextAlign.start,
@@ -152,8 +152,8 @@ class _Welcome extends StatelessWidget {
           const SizedBox(height: 40),
           Image.asset(
             "assets/images/logo_1.png",
-            height: 100,
-            width: 100,
+            height: 200,
+            width: 200,
           ),
         ],
       ),
