@@ -1,6 +1,4 @@
-
-import 'package:canchitas/screens/welcome/widgets/body.dart';
-import 'package:canchitas/screens/welcome/widgets/welcome.dart';
+import 'package:canchitas/screens/welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class IntroScreen extends StatelessWidget {
