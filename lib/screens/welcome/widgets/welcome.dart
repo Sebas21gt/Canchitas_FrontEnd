@@ -27,7 +27,7 @@ class Welcome extends StatelessWidget {
           Text(
             "BIENVENIDO A \nLAS CANCHITAS!",
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: Colors.white, fontSize: 80, fontFamily: 'SportsBar'),
+                color: Colors.white, fontSize: 55, fontFamily: 'SportsBar'),
             textAlign: TextAlign.start,
           ),
           const SizedBox(height: 40),
@@ -35,7 +35,7 @@ class Welcome extends StatelessWidget {
             "Encuentra torneos, reserva \ncanchas y mantente al tanto de \nlos campeonatos en tu área. \n¡No te pierdas ningún juego!",
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   color: Colors.white,
-                  fontSize: 35,
+                  fontSize: 25,
                   fontFamily: 'SportsBar',
                 ),
             textAlign: TextAlign.start,
@@ -43,8 +43,8 @@ class Welcome extends StatelessWidget {
           const SizedBox(height: 40),
           Image.asset(
             "assets/images/logo_cancha.png",
-            height: 180,
-            width: 180,
+            height: 100,
+            width: 100,
           ),
         ],
       ),

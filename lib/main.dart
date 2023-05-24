@@ -1,5 +1,8 @@
 import 'package:canchitas/constants.dart';
+import 'package:canchitas/screens/championship/championship_screen.dart';
 import 'package:canchitas/screens/home/home_screen.dart';
+import 'package:canchitas/screens/menu/menu_screen.dart';
+import 'package:canchitas/screens/team/team_screen.dart';
 import 'package:canchitas/screens/welcome/intro_screen.dart';
 import 'package:canchitas/screens/welcome/login_screen.dart';
 import 'package:canchitas/screens/welcome/register_screen.dart';
@@ -27,8 +30,11 @@ class MyApp extends StatelessWidget {
         "/home": (context) => const HomeScreen(),
         "/loginScreen": (context) => const LoginScreen(),
         "/registerScreen": (context) => const RegisterScreen(),
+        "/menu":(context) => const MenuScreen(),
+        "/team":(context) => const TeamScreen(),
+        "/championship":(context) => const ChampionshipScreen(),
       },
-      initialRoute: "/welcome",
+      initialRoute: "/menu",
     );
   }
 }

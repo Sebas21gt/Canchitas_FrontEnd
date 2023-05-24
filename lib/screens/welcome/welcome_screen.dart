@@ -52,17 +52,16 @@ class _RegisterLoginButtons extends StatelessWidget {
                   colorBorder: cPrimaryColor,
                   colorText: cPrimaryColor,
                   colorBackground: Colors.white,
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, "/loginScreen");
-                  }
-                  ),
+                  }),
               const SizedBox(width: 60),
               _CustomButton(
                   text: "Registrarse",
                   colorBorder: Colors.white,
                   colorText: Colors.white,
                   colorBackground: cPrimaryColor,
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, "/registerScreen");
                   }),
             ],
@@ -85,7 +84,7 @@ class _CustomButton extends StatelessWidget {
     required this.text,
     required this.colorBorder,
     required this.colorText,
-    required this.colorBackground, 
+    required this.colorBackground,
     this.onTap,
   }) : super(key: key);
 
