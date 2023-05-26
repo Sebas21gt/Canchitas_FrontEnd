@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 import 'package:http/http.dart' as http;
@@ -91,12 +93,9 @@ class _LogInFormState extends State<LogInForm> {
               children: [
                 TextFormField(
                   onSaved: (value) => email = value!,
-                  validator: (value){
-                    if (value!.isEmpty){
+                  validator: (value) {
+                    if (value!.isEmpty) {
                       return "Ingrese su Correo Electronico";
-                    }
-                    if(value != "sebas@prueba.com"){
-                      return "Correo no valido o no Registrado";
                     }
                   },
                   decoration: const InputDecoration(
@@ -121,12 +120,9 @@ class _LogInFormState extends State<LogInForm> {
                 const SizedBox(height: 40),
                 TextFormField(
                   onSaved: (value) => password = value!,
-                  validator: (value){
-                    if(value!.length < 3){
+                  validator: (value) {
+                    if (value!.length < 3) {
                       return "La contraseña debe tener al menos 3 caracteres";
-                    }
-                    if(value != "1234"){
-                      return "Contraseña incorrecta";
                     }
                   },
                   obscureText: true,
@@ -164,17 +160,18 @@ class _LogInFormState extends State<LogInForm> {
                 ),
                 const SizedBox(height: 80),
                 _CustomButton(
-                  text: "Iniciar Sesión",
+                  text: "Sesionar",
                   colorBorder: Colors.white,
                   colorText: Colors.white,
                   colorBackground: cPrimaryColor,
-                  onTap: () {
+                  onTap: () async {
+                    print("Antes de login");
+                    await _login();
+                    print("Despues del login");
                     if (_formKey.currentState!.validate()) {
-                      // _formKey.currentState!.save();
-                      Navigator.pushNamed(context, '/home');
-                      // _login();
+                      _formKey.currentState!.save();
+                      //Navigator.pushNamed(context, '/menu');
                     }
-                    
                   },
                 ),
               ],
@@ -185,29 +182,36 @@ class _LogInFormState extends State<LogInForm> {
     );
   }
 
-  void _login() async {
-    var url = Uri.parse('http://192.168.73.30:8080/login');
-    var headers = {'Content-Type': 'application/json', 'User-Agent': "com.example.canchitas", "Access-Control-Allow-Origin": "*"};
-    var body = {
-      "email": email,
-      "password": password,
-    };
-    var response = await http.post(
-      url,
-      headers: headers,
-      body: json.encode(body),
-    );
-    if (response.statusCode == 200) {
-      // La solicitud fue exitosa
-      var data = response.body;
-      // ignore: avoid_print
-      print(data);
-      // Maneja la respuesta de la API aquí
-    } else {
-      // La solicitud falló
-      print('Error en la solicitud: ${response.statusCode}');
+  Future<void> _login() async {
+    try {
+      var url = Uri.parse('http://192.168.1.54:3000/login');
+      // var headers = {
+      //   HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      // };
+      // var body = <String, dynamic>{
+      //   "email": email,
+      //   "password": password,
+      // };
+      var response = await http.post(
+        url,
+        // headers: headers,
+        // body: jsonEncode(body),
+      );
+      // print(response.body);
+      if (response.statusCode == 200) {
+        // La solicitud fue exitosa
+        var data = response.body;
+        // ignore: avoid_print
+        print(data);
+        // Maneja la respuesta de la API aquí
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+        print("Error en el login");
+      }
+      // TODO
     }
-    return null;
   }
 }
 

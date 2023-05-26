@@ -6,31 +6,31 @@ class GridDashboard extends StatelessWidget {
   GridDashboard({super.key});
 
   Items item1 = Items(
-      title: "Reservaciones",
-      subtitle: "Reserva tu cancha ahora!!",
-      img: "assets/images/Calendar.png",
-      route: "/reservations"
+      title: "Futbol",
+      subtitle: "Canchas de Futbol 11",
+      img: "assets/images/Soccer.png",
+      // route: "/sportFields"
   );
 
   Items item2 = Items(
-      title: "Mi Equipo",
-      subtitle: "Crea tu equipo",
-      img: "assets/images/Team.png",
-      route: "/team"
+      title: "VoleyBall",
+      subtitle: "Canchas de VoleyBall",
+      img: "assets/images/volleyball.png",
+      // route: "/sportFields"
   );
 
   Items item3 = Items(
-      title: "Campeonatos",
-      subtitle: "Campeonatos en tu zona",
-      img: "assets/images/championship.png",
-      route: "/championship"
+      title: "BasketBall",
+      subtitle: "Canchas de BasketBall",
+      img: "assets/images/Basketball.png",
+      // route: "/sportFields"
   );
 
   Items item4 = Items(
-      title: "Programaciones",
-      subtitle: "Todos los partidos a la mano",
-      img: "assets/images/Basketball.png",
-      route: "/programming"
+      title: "Futsal",
+      subtitle: "Canchas de Futsal",
+      img: "assets/images/Futsal.png",
+      // route: "/sportFields"
   );
 
   @override
@@ -104,5 +104,5 @@ class Items {
   String subtitle;
   String img;
   String route;
-  Items({required this.title, required this.subtitle, required this.img, required this.route});
+  Items({required this.title, required this.subtitle, required this.img, this.route = ""});
 }

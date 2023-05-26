@@ -1,26 +1,26 @@
 import 'package:canchitas/constants.dart';
-import 'package:canchitas/screens/menu/widgets/griddashboard.dart';
+import 'package:canchitas/screens/sports/widgets/griddashboard.dart';
 import 'package:flutter/material.dart';
 
-class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+class SportsScreen extends StatelessWidget {
+  const SportsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Menu(),
+      body: Sports(),
     );
   }
 }
 
-class Menu extends StatefulWidget {
-  const Menu({super.key});
+class Sports extends StatefulWidget {
+  const Sports({super.key});
 
   @override
-  State<Menu> createState() => _MenuState();
+  State<Sports> createState() => _SportsState();
 }
 
-class _MenuState extends State<Menu> {
+class _SportsState extends State<Sports> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,23 +38,23 @@ class _CustomBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      const SizedBox(height: 110),
+      SizedBox(height: 110),
       Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: EdgeInsets.only(left: 16, right: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const <Widget>[
-                Text("INICIO",
+                Text("DEPORTES",
                   style: TextStyle(
                     fontFamily: "SportsBar",
                     fontSize: 40,
                     color: cPrimaryColor)
                 ),
                 SizedBox(height: 4),
-                Text("Que desea hacer hoy?",
+                Text("Que deporte desea buscar?",
                   style: TextStyle(
                     fontFamily: "SportsBar",
                     fontSize: 20,
@@ -70,7 +70,7 @@ class _CustomBody extends StatelessWidget {
           ],
         ), 
       ),
-      const SizedBox(height: 40),
+      SizedBox(height: 40),
       GridDashboard(),
     ],);
   }
