@@ -42,9 +42,9 @@ class Welcome extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           Image.asset(
-            "assets/images/logo_cancha.png",
-            height: 100,
-            width: 100,
+            "assets/images/logo_1.png",
+            height: 150,
+            width: 150,
           ),
         ],
       ),

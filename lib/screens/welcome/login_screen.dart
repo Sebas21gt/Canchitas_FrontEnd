@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class Encabezado extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-      height: size.height * 0.40,
+      height: size.height * 0.45,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: cPrimaryColor,
@@ -42,11 +44,11 @@ class Encabezado extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            "assets/images/logo_cancha.png",
+            "assets/images/logo_1.png",
             height: 120,
             width: 120,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Center(
             child: Text(
               "LAS CANCHITAS",
@@ -58,6 +60,18 @@ class Encabezado extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+          const SizedBox(height: 10),
+          Center(
+            child: Text(
+              "Iniciar Sesión",
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontFamily: 'SportsBar',
+                  ),
+              textAlign: TextAlign.center,
+            ),
+          )
         ],
       ),
     );
@@ -72,15 +86,22 @@ class LogInForm extends StatefulWidget {
 class _LogInFormState extends State<LogInForm> {
   final _formKey = GlobalKey<FormState>();
 
-  late String email;
-  late String password;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-      height: size.height * 0.60,
+      height: size.height * 0.55,
       width: double.infinity,
       decoration: const BoxDecoration(color: cBackgroundColor),
       child: Form(
@@ -92,11 +113,12 @@ class _LogInFormState extends State<LogInForm> {
             Column(
               children: [
                 TextFormField(
-                  onSaved: (value) => email = value!,
+                  controller: _emailController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Ingrese su Correo Electronico";
                     }
+                    return null;
                   },
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
@@ -119,11 +141,12 @@ class _LogInFormState extends State<LogInForm> {
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
-                  onSaved: (value) => password = value!,
+                  controller: _passwordController,
                   validator: (value) {
                     if (value!.length < 3) {
                       return "La contraseña debe tener al menos 3 caracteres";
                     }
+                    return null;
                   },
                   obscureText: true,
                   decoration: const InputDecoration(
@@ -158,19 +181,18 @@ class _LogInFormState extends State<LogInForm> {
                     textAlign: TextAlign.end,
                   ),
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: 40),
                 _CustomButton(
-                  text: "Sesionar",
+                  text: "Iniciar Sesión",
                   colorBorder: Colors.white,
                   colorText: Colors.white,
                   colorBackground: cPrimaryColor,
                   onTap: () async {
-                    print("Antes de login");
-                    await _login();
-                    print("Despues del login");
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      //Navigator.pushNamed(context, '/menu');
+                      print("Antes de login");
+                      await _login();
+                      print("Despues del login");
                     }
                   },
                 ),
@@ -184,33 +206,48 @@ class _LogInFormState extends State<LogInForm> {
 
   Future<void> _login() async {
     try {
-      var url = Uri.parse('http://192.168.1.54:3000/login');
-      // var headers = {
-      //   HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-      // };
-      // var body = <String, dynamic>{
-      //   "email": email,
-      //   "password": password,
-      // };
-      var response = await http.post(
+      String url = 'http://192.168.1.54:8080/login';
+      var headers = {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      };
+      var body = <String, dynamic>{
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      };
+      final dio = Dio();
+      final response = await dio.post(
         url,
-        // headers: headers,
-        // body: jsonEncode(body),
+        data: jsonEncode(body),
+        options: Options(headers: headers),
       );
-      // print(response.body);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         // La solicitud fue exitosa
-        var data = response.body;
+        var data = response.data;
         // ignore: avoid_print
         print(data);
+        Navigator.pushNamed(context, '/menu');
         // Maneja la respuesta de la API aquí
       }
     } catch (e) {
       if (kDebugMode) {
         print(e);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text('Usuario o contraseña incorrectos'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Aceptar'),
+                    ),
+                  ],
+                ));
         print("Error en el login");
       }
-      // TODO
     }
   }
 }

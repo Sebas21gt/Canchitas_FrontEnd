@@ -23,7 +23,7 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: cBackgroundColor,
       body: _CustomBody(),
     );

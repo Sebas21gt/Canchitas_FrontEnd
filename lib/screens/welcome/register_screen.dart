@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
-// import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -27,8 +29,8 @@ class Encabezado extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-      height: size.height * 0.40,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      height: size.height * 0.30,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: cPrimaryColor,
@@ -40,11 +42,11 @@ class Encabezado extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            "assets/images/logo_cancha.png",
-            height: 120,
-            width: 120,
+            "assets/images/logo_1.png",
+            height: 100,
+            width: 100,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 9),
           Center(
             child: Text(
               "Registrarse",
@@ -70,15 +72,17 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
 
-  late String email;
-  late String password;
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-      height: size.height * 0.60,
+      height: size.height * 0.70,
       width: double.infinity,
       decoration: const BoxDecoration(color: cBackgroundColor),
       child: Form(
@@ -90,7 +94,7 @@ class _RegisterFormState extends State<RegisterForm> {
             Column(
               children: [
                 TextFormField(
-                  onSaved: (value) => email = value!,
+                  controller: _firstNameController,
                   validator: (value){
                     if (value!.length < 5){
                       return "Ingrese un nombre valido";
@@ -110,6 +114,33 @@ class _RegisterFormState extends State<RegisterForm> {
                         fontSize: 18),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     suffixIcon: Icon(
+                      Icons.man_2_outlined,
+                      color: cPrimaryColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: _lastNameController,
+                  validator: (value){
+                    if (value!.length < 5){
+                      return "Ingrese un apellido valido";
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: "Apellidos",
+                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                    hintText: "Ingrese sus apellidos",
+                    hintStyle: TextStyle(
+                        color: cTextColor,
+                        fontFamily: "SportsBar",
+                        fontSize: 18),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: Icon(
                       Icons.supervised_user_circle,
                       color: cPrimaryColor,
                     ),
@@ -117,7 +148,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
-                  onSaved: (value) => email = value!,
+                  controller: _emailController,
                   validator: (value){
                     if (value!.isEmpty){
                       return "Ingrese su Correo Electronico";
@@ -144,7 +175,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
-                  onSaved: (value) => password = value!,
+                  controller: _passwordController,
                   validator: (value){
                     if(value!.length < 3){
                       return "La contraseña debe tener al menos 3 caracteres";
@@ -178,9 +209,8 @@ class _RegisterFormState extends State<RegisterForm> {
                   colorBackground: cPrimaryColor,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      // _formKey.currentState!.save();
-                      Navigator.pushNamed(context, '/menu');
-                      // _register();
+                      _formKey.currentState!.save();
+                      _register();
                     }
                   },
                 ),
@@ -193,29 +223,40 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void _register() async {
-    // var url = Uri.parse('http://192.168.73.30:8080/register');
-    // var headers = {'Content-Type': 'application/json', 'User-Agent': "com.example.canchitas", "Access-Control-Allow-Origin": "*"};
-    // var body = {
-    //   "email": email,
-    //   "password": password,
-    // };
-    // var response = await http.post(
-    //   url,
-    //   headers: headers,
-    //   body: json.encode(body),
-    // );
-    // if (response.statusCode == 200) {
-    //   // La solicitud fue exitosa
-    //   var data = response.body;
-    //   // ignore: avoid_print
-    //   print(data);
-    //   // Maneja la respuesta de la API aquí
-    // } else {
-    //   // La solicitud falló
-    //   // ignore: avoid_print
-    //   print('Error en la solicitud: ${response.statusCode}');
-    // }
-    // return null;
+    try {
+      String url = 'http://192.168.1.54:8080/user/register';
+      var headers = {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      };
+      var body = <String, dynamic>{
+        "firstName": _firstNameController.text,
+        "lastName": _lastNameController.text,
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      };
+      final dio = Dio();
+      final response = await dio.post(
+        url,
+        data: jsonEncode(body),
+        options: Options(headers: headers),
+      );
+      if (kDebugMode) {
+        print(response.statusCode);
+      }
+      if (response.statusCode == 201) {
+        // La solicitud fue exitosa
+        var data = response.data;
+        // ignore: avoid_print
+        print(data);
+        Navigator.pushNamed(context, '/menu');
+        // Maneja la respuesta de la API aquí
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+        print("Error en el registro");
+      }
+    }
   }
 }
 
