@@ -52,7 +52,8 @@ class ChampionshipBody extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               child: ListTile(
-                leading: Icon(Icons.sports_soccer),
+                leading: CircleAvatar(
+                  child: Text("J")),
                 title: Text('Campeonato 3'),
                 onTap: () {
                   // Navigator.pushNamed(context, "/championshipScreen");
@@ -74,6 +75,7 @@ class ChampionshipBody extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  print("Campeonato 4");
                   // Navigator.pushNamed(context, "/championshipScreen");
                 },
                 child: const ListTile(

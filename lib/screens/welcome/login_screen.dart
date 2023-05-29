@@ -190,9 +190,10 @@ class _LogInFormState extends State<LogInForm> {
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      print("Antes de login");
-                      await _login();
-                      print("Despues del login");
+                      Navigator.pushNamed(context, '/menu');
+                      // print("Antes de login");
+                      // await _login();
+                      // print("Despues del login");
                     }
                   },
                 ),

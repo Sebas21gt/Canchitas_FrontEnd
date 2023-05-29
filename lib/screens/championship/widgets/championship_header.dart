@@ -12,7 +12,7 @@ class ChampionshipsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       height: size.height * 0.25,
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -38,11 +38,12 @@ class ChampionshipsHeader extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           // ignore: prefer_const_constructors
-            ExpansionTile(
+              ExpansionTile(
               title: const Text('DEPORTES', style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'SportsBar')),
               collapsedBackgroundColor: cPrimaryColor,
               backgroundColor: cPrimaryColor,
               collapsedIconColor: cBackgroundColor,
+              iconColor: cBackgroundColor,
               collapsedShape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
               ),

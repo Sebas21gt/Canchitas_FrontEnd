@@ -49,4 +49,3 @@ class _CustomBody extends StatelessWidget {
     ]);
   }
 }
-
