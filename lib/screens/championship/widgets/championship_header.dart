@@ -37,34 +37,33 @@ class ChampionshipsHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 40),
-          // ignore: prefer_const_constructors
-              ExpansionTile(
-              title: const Text('DEPORTES', style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'SportsBar')),
-              collapsedBackgroundColor: cPrimaryColor,
-              backgroundColor: cPrimaryColor,
-              collapsedIconColor: cBackgroundColor,
-              iconColor: cBackgroundColor,
-              collapsedShape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+          DropdownButtonFormField(
+            items: ["FUTBOL", "FUTSAL", "VOLEYBALL", "BASKETBALL"].map((String category) {
+              return DropdownMenuItem(
+                value: category,
+                child: Text(category),
+              );
+            }).toList(),
+            onChanged: (value) {
+              print(value);
+            },
+            iconEnabledColor: Colors.white,
+            icon: const Icon(Icons.arrow_drop_down_circle),
+            dropdownColor: cPrimaryColor,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: cPrimaryColor,
+              suffixStyle: TextStyle(color: cBackgroundColor),
+              floatingLabelStyle: TextStyle(color: cPrimaryColor),
+              hintText: "CATEGORIA",
+              hintStyle: const TextStyle(color: cBackgroundColor),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide.none,
               ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-              ),
-              children: const <Widget>[
-                ListTile(
-                  title: Text('FUTBOL', style: TextStyle(color: cBackgroundColor)),
-                ),
-                ListTile(
-                  title: Text('FUTSAL', style: TextStyle(color: cBackgroundColor),),
-                ),
-                ListTile(
-                  title: Text('VOLEYBALL', style: TextStyle(color: cBackgroundColor),),
-                ),
-                ListTile(
-                  title: Text('BASKETBALL', style: TextStyle(color: cBackgroundColor),),
-                ),
-              ],
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             ),
+          ),
         ],
       ),
     );

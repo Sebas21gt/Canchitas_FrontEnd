@@ -18,7 +18,7 @@ class ChampionshipScreen extends StatelessWidget {
             if (kDebugMode) {
               print("Back");
             }
-            // Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
         elevation: 0,

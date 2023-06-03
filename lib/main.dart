@@ -3,6 +3,7 @@ import 'package:canchitas/screens/championship/championship_form_screen.dart';
 import 'package:canchitas/screens/championship/championship_screen.dart';
 import 'package:canchitas/screens/home/home_screen.dart';
 import 'package:canchitas/screens/menu/menu_screen.dart';
+import 'package:canchitas/screens/programming/programming_form_screen.dart';
 import 'package:canchitas/screens/programming/programming_screen.dart';
 import 'package:canchitas/screens/sports/futsal_screen.dart';
 import 'package:canchitas/screens/sports/sports_screen.dart';
@@ -39,11 +40,12 @@ class MyApp extends StatelessWidget {
         "/championship":(context) => const ChampionshipScreen(),
         "/championship_form":(context) => const ChampionshipFormScreen(),
         "/programming":(context) => const ProgrammingScreen(),
+        "/programming_form":(context) => const ProgrammingFormScreen(),
         "/sports":(context) => const SportsScreen(),
         "/futsal":(context) => const FutsalScreen(),
       },
-      initialRoute: "/welcome",
-      // initialRoute: "/team",
+      // initialRoute: "/welcome",
+      initialRoute: "/menu",
     );
   }
 }

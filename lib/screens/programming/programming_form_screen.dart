@@ -7,12 +7,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 
-class ChampionshipFormScreen extends StatelessWidget {
-  const ChampionshipFormScreen({Key? key}) : super(key: key);
+class ProgrammingFormScreen extends StatelessWidget {
+  const ProgrammingFormScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          color: cBackgroundColor,
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            if (kDebugMode) {
+              print("Back");
+            }
+            Navigator.pop(context);
+          },
+        ),
+        elevation: 0,
+        backgroundColor: cPrimaryColor,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -30,7 +44,7 @@ class Encabezado extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 10),
       height: size.height * 0.20,
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -42,10 +56,9 @@ class Encabezado extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 9),
           Center(
             child: Text(
-              "Registrar un Campeonato",
+              "Generar \nProgramacion",
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                     color: Colors.white,
                     fontSize: 50,
@@ -59,21 +72,6 @@ class Encabezado extends StatelessWidget {
     );
   }
 }
-  Items item1 = Items(
-      title: "Reservaciones",
-  );
-
-  Items item2 = Items(
-      title: "Mi Equipo",
-  );
-
-  Items item3 = Items(
-      title: "Campeonatos",
-  );
-
-  Items item4 = Items(
-      title: "Programaciones",
-  );
 
 class RegisterChampionshipForm extends StatefulWidget {
   const RegisterChampionshipForm({super.key});
@@ -89,7 +87,6 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
   final _dateStartController = TextEditingController();
   final _dateFinishController = TextEditingController();
   final _disciplineController = TextEditingController();
-  List<Items> listDisciplinas = [item1, item2, item3, item4];
 
   @override
   Widget build(BuildContext context) {
@@ -107,77 +104,6 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
           children: [
             Column(
               children: [
-                TextFormField(
-                  controller: _nameChampionshipController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    labelText: "Nombre del Campeonato",
-                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese el nombre del campeonato",
-                    hintStyle: TextStyle(
-                        color: cTextColor,
-                        fontFamily: "SportsBar",
-                        fontSize: 18),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    suffixIcon: Icon(
-                      Icons.text_fields_rounded,
-                      color: cPrimaryColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _dateStartController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    labelText: "Fecha de Inicio",
-                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese la fecha de inicio",
-                    hintStyle: TextStyle(
-                        color: cTextColor,
-                        fontFamily: "SportsBar",
-                        fontSize: 18),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    suffixIcon: Icon(
-                      Icons.date_range_rounded,
-                      color: cPrimaryColor,
-                    ),
-                  ),
-                  onTap: () {
-                    _callDatePickerStart();
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _dateFinishController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    labelText: "Fecha de Finalizacion",
-                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese la fecha de finalizacion",
-                    hintStyle: TextStyle(
-                        color: cTextColor,
-                        fontFamily: "SportsBar",
-                        fontSize: 18),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    suffixIcon: Icon(
-                      Icons.date_range_rounded,
-                      color: cPrimaryColor,
-                    ),
-                  ),
-                  onTap: () {
-                    _callDatePickerFinish();
-                  },
-                ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField(
                   decoration: const InputDecoration(
@@ -185,9 +111,9 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                       borderSide: BorderSide(color: cPrimaryColor, width: 20),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: "Disciplina",
+                    labelText: "Campeonato",
                     labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Seleccione una disciplina",
+                    hintText: "Seleccione un campeonato",
                     hintStyle: TextStyle(
                         color: cTextColor,
                         fontFamily: "SportsBar",
@@ -198,13 +124,35 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                       color: cPrimaryColor,
                     ),
                   ),
-                  items: ["Futsal", "Futbol", "Voley", "Basketball"]
+                  items: ["Campeonato Barrio Max Toledo", "Asociacion Chuq. de Futsal", "Copa Promemba"]
                       .map((label) => DropdownMenuItem(
                             child: Text(label.toString()),
                             value: label,
                           ))
                       .toList(),
                   onChanged: (value) {},
+                ),
+                const SizedBox(height: 40),
+                TextFormField(
+                  controller: _nameChampionshipController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: "Numero de grupos",
+                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                    hintText: "Ingrese la cantidad de grupos",
+                    hintStyle: TextStyle(
+                        color: cTextColor,
+                        fontFamily: "SportsBar",
+                        fontSize: 18),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: Icon(
+                      Icons.text_fields_rounded,
+                      color: cPrimaryColor,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 40),
                 _CustomButton(
@@ -315,12 +263,6 @@ void _registerChampionship() async {
   //     print("Error en el registro");
   //   }
   // }
-}
-
-class Items {
-  String title;
-  Items(
-      {required this.title});
 }
 
 class _CustomButton extends StatelessWidget {

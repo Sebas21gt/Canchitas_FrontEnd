@@ -15,10 +15,7 @@ class FutsalScreen extends StatelessWidget {
           color: cBackgroundColor,
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            if (kDebugMode) {
-              print("Back");
-            }
-            // Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
         elevation: 0,

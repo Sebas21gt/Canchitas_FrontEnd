@@ -9,28 +9,28 @@ class GridDashboard extends StatelessWidget {
       title: "Futbol",
       subtitle: "Canchas de Futbol 11",
       img: "assets/images/Soccer.png",
-      // route: "/sportFields"
+      route: "/sportFields"
   );
 
   Items item2 = Items(
       title: "VoleyBall",
       subtitle: "Canchas de VoleyBall",
       img: "assets/images/volleyball.png",
-      // route: "/sportFields"
+      route: "/sportFields"
   );
 
   Items item3 = Items(
       title: "BasketBall",
       subtitle: "Canchas de BasketBall",
       img: "assets/images/Basketball.png",
-      // route: "/sportFields"
+      route: "/sportFields"
   );
 
   Items item4 = Items(
       title: "Futsal",
       subtitle: "Canchas de Futsal",
       img: "assets/images/Futsal.png",
-      // route: "/sportFields"
+      route: "/futsal"
   );
 
   @override

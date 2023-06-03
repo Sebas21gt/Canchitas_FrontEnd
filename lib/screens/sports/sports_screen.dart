@@ -7,7 +7,24 @@ class SportsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          color: cBackgroundColor,
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        elevation: 0,
+        backgroundColor: cPrimaryColor,
+        title: Text("Canchitas App",
+            style: TextStyle(
+                fontFamily: "SportsBar",
+                fontSize: 30,
+                color: cBackgroundColor)),
+        centerTitle: true,
+      ),
       body: Sports(),
     );
   }
@@ -38,7 +55,7 @@ class _CustomBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      SizedBox(height: 110),
+      SizedBox(height: 10),
       Padding(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Row(
