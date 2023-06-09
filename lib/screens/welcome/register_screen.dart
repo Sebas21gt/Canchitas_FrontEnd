@@ -114,7 +114,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         fontSize: 18),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     suffixIcon: Icon(
-                      Icons.man_2_outlined,
+                      Icons.man,
                       color: cPrimaryColor,
                     ),
                   ),

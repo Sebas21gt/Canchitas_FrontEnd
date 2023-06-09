@@ -11,6 +11,7 @@ import 'package:canchitas/screens/team/team_screen.dart';
 import 'package:canchitas/screens/welcome/intro_screen.dart';
 import 'package:canchitas/screens/welcome/login_screen.dart';
 import 'package:canchitas/screens/welcome/register_screen.dart';
+import 'package:canchitas/test.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -43,9 +44,11 @@ class MyApp extends StatelessWidget {
         "/programming_form":(context) => const ProgrammingFormScreen(),
         "/sports":(context) => const SportsScreen(),
         "/futsal":(context) => const FutsalScreen(),
+
+        "/test":(context) => const testScreem(), // TODO: Delete this line
       },
       // initialRoute: "/welcome",
-      initialRoute: "/menu",
+      initialRoute: "/test",
     );
   }
 }

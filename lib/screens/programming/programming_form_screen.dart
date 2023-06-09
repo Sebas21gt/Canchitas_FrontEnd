@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:canchitas/models/model_championship.dart';
 import 'package:canchitas/screens/team/team_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -82,6 +83,7 @@ class RegisterChampionshipForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterChampionshipForm> {
   final _formKey = GlobalKey<FormState>();
+  List<ModelChampionship>? _modelChampionship;
 
   final _nameChampionshipController = TextEditingController();
   final _dateStartController = TextEditingController();
@@ -124,13 +126,13 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                       color: cPrimaryColor,
                     ),
                   ),
-                  items: ["Campeonato Barrio Max Toledo", "Asociacion Chuq. de Futsal", "Copa Promemba"]
-                      .map((label) => DropdownMenuItem(
-                            child: Text(label.toString()),
-                            value: label,
-                          ))
-                      .toList(),
-                  onChanged: (value) {},
+                  items: _modelChampionship!.map((ModelChampionship value) {
+                    return DropdownMenuItem(
+                    value: value,
+                    child: Text(value.name!),
+                    );
+                  }).toList(),
+            onChanged: (value) {},
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
