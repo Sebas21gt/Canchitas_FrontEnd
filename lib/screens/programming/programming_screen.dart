@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 class ProgrammingScreen extends StatelessWidget {
   const ProgrammingScreen({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +33,14 @@ class ProgrammingScreen extends StatelessWidget {
               Navigator.pushNamed(context, "/programming_form");
             },
           ),
+          IconButton(
+            color: cPrimaryColor,
+            iconSize: 40,
+            icon: const Icon(Icons.timer),
+            onPressed: () {
+              
+            },
+          )
         ],
       ),
       body: _CustomBody(),

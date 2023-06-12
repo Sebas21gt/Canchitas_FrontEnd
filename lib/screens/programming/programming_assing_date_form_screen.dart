@@ -6,9 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
+import 'package:intl/intl.dart';
 
-class ProgrammingFormScreen extends StatelessWidget {
-  const ProgrammingFormScreen({Key? key}) : super(key: key);
+class ProgrammingAssingDateFormScreen extends StatelessWidget {
+  const ProgrammingAssingDateFormScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,8 @@ class ProgrammingFormScreen extends StatelessWidget {
 }
 
 class Encabezado extends StatelessWidget {
+  const Encabezado({super.key});
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -58,7 +61,7 @@ class Encabezado extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              "Generar \nProgramacion",
+              "ASIGNAR \nHORARIO",
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                     color: Colors.white,
                     fontSize: 50,
@@ -86,7 +89,9 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
   ModelChampionship? _selectedChampionship;
 
   final _numGroupsChampionshipController = TextEditingController();
+  final _numDatesChampionshipController = TextEditingController();
   final _dateFinishController = TextEditingController();
+  final _hourStartController = TextEditingController();
 
   @override
   void initState() {
@@ -135,6 +140,31 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                   },
                 ),
                 const SizedBox(height: 20),
+                TextFormField(
+                  controller: _hourStartController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: "Hora de Programación",
+                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                    hintText: "Ingrese la hora de programación",
+                    hintStyle: TextStyle(
+                        color: cTextColor,
+                        fontFamily: "SportsBar",
+                        fontSize: 18),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: Icon(
+                      Icons.timer_outlined,
+                      color: cPrimaryColor,
+                    ),
+                  ),
+                  onTap: () {
+                    _callTimePicker();
+                  },
+                ),
+                const SizedBox(height: 20),
                 DropdownButtonFormField<ModelChampionship>(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
@@ -162,7 +192,7 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                   },
                   items: buildDropdownItems(),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: _numGroupsChampionshipController,
                   decoration: const InputDecoration(
@@ -170,9 +200,31 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                       borderSide: BorderSide(color: cPrimaryColor, width: 20),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: "Numero de grupos",
+                    labelText: "Numero de grupo",
                     labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese la cantidad de grupos",
+                    hintText: "Ingrese el numero de grupo",
+                    hintStyle: TextStyle(
+                        color: cTextColor,
+                        fontFamily: "SportsBar",
+                        fontSize: 18),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: Icon(
+                      Icons.text_fields_rounded,
+                      color: cPrimaryColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _numDatesChampionshipController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: cPrimaryColor, width: 20),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: "Numero de fecha",
+                    labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
+                    hintText: "Ingrese el numero de fecha a asignar",
                     hintStyle: TextStyle(
                         color: cTextColor,
                         fontFamily: "SportsBar",
@@ -186,14 +238,14 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                 ),
                 const SizedBox(height: 40),
                 _CustomButton(
-                  text: "Generar Programación",
+                  text: "Asignar Horario",
                   colorBorder: Colors.white,
                   colorText: Colors.white,
                   colorBackground: cPrimaryColor,
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      _registerProgramming();
+                      _assingDateProgramming();
                     }
                     setState(() {});
                   },
@@ -225,9 +277,21 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
   }
 
   void _callDatePickerFinish() async {
-    var selectedDate = await getDatePickerFinish();
+    final DateTime? selectedDate = await getDatePickerFinish();
+    if (selectedDate != null) {
+      final timeOfDay = TimeOfDay.now();
+      final dateTime = DateTime(selectedDate.year, selectedDate.month,
+          selectedDate.day, timeOfDay.hour, timeOfDay.minute);
+      setState(() {
+        _dateFinishController.text = DateFormat('yyyy-MM-dd').format(dateTime);
+      });
+    }
+  }
+
+  void _callTimePicker() async {
+    var selectedTime = await getTimePicker();
     setState(() {
-      _dateFinishController.text = selectedDate.toString();
+      _hourStartController.text = selectedTime.toString();
     });
   }
 
@@ -250,29 +314,72 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
     );
   }
 
-  void _registerProgramming() async {
+  Future getTimePicker() async {
+    final TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light().copyWith(
+              primary: cPrimaryColor,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (selectedTime != null) {
+      // Formatear la hora seleccionada en el formato deseado
+      final formattedHour =
+          '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
+      return formattedHour;
+    }
+
+    // Si no se seleccionó ninguna hora, puedes manejarlo de alguna manera apropiada para tu caso
+    return '';
+  }
+
+  void _assingDateProgramming() async {
+    final String time = _hourStartController.text;
     final String date = _dateFinishController.text;
-    final int championshipId = _selectedChampionship?.id ?? 0;
-    final int group = int.tryParse(_numGroupsChampionshipController.text) ?? 0;
-    print(date);
-    print(championshipId);
-    print(group);
+
+    final DateTime selectedDateTime = DateFormat('yyyy-MM-dd').parse(date);
+
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    final String formattedDate = dateFormat.format(selectedDateTime);
 
     if (_selectedChampionship == null) {
       // No se ha seleccionado un campeonato
       return;
-    } // Obtener el ID del campeonato seleccionado
+    }
 
     try {
-      final url = 'http://192.168.1.54:8080/programming';
-      var headers = {
+      final String dateTimeString = '$formattedDate $time:00';
+      final DateTime selectedDateTime =
+          DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTimeString);
+
+      final int championshipId = _selectedChampionship!.id ?? 0;
+      final int group =
+          int.tryParse(_numGroupsChampionshipController.text) ?? 0;
+      final int numDate =
+          int.tryParse(_numDatesChampionshipController.text) ?? 0;
+
+      final url = 'http://192.168.1.54:8080/programming/assign-date';
+      final headers = {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       };
-      var body = <String, dynamic>{
-        'date': date,
-        'championshipId': championshipId,
-        'group': group,
+      final body = <String, dynamic>{
+        "championshipId": championshipId,
+        "group": group,
+        "dateNumber": numDate,
+        "dateNow": DateFormat('yyyy-MM-dd HH:mm:ss')
+            .format(selectedDateTime),
+        "sportFieldId": null
       };
+      print(body);
+
       final dio = Dio();
       final response = await dio.post(
         url,
@@ -282,31 +389,27 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
       if (kDebugMode) {
         print(response.statusCode);
       }
-      //!Cambiar en el backend el status code de 201 a 200
+
       if (response.statusCode == 201) {
-        // La solicitud fue exitosa
-        var data = response.data;
-        // ignore: avoid_print
-        print(data);
-        // _showAlert
         showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text("Registro exitoso"),
-                content: Text("Se ha registrado la programación exitosamente"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/programming');
-                    },
-                    child: Text("Aceptar"),
-                  ),
-                ],
-              );
-            });
-        // Navigator.pushNamed(context, '/menu');
-        // Maneja la respuesta de la API aquí
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Asignación exitosa"),
+              content: const Text(
+                  "Se ha asignado horarios a la programación exitosamente"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/programming');
+                  },
+                  child: const Text("Aceptar",
+                      style: TextStyle(color: cPrimaryColor)),
+                ),
+              ],
+            );
+          },
+        );
       }
     } catch (e) {
       if (kDebugMode) {
@@ -316,6 +419,7 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
     }
   }
 }
+
 class _CustomButton extends StatelessWidget {
   final String text;
   final Color colorBorder;
