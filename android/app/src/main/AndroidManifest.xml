@@ -6,6 +6,8 @@
         android:label="canchitas"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyC8bpLpoS2tQwB5V7Bd1YuiuMkdWsB9Hjs"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

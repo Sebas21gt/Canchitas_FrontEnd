@@ -21,7 +21,7 @@ List<Map<String, dynamic>> list = [
 ];
 
 class TeamScreen extends StatelessWidget {
-  const TeamScreen({super.key});
+  const TeamScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +61,13 @@ class TeamScreen extends StatelessWidget {
           ]),
         ],
       ),
-      body: const _CustomBody(),
+      body: CustomBody(),
     );
   }
 }
 
-class _CustomBody extends StatelessWidget {
-  const _CustomBody({
-    super.key,
-  });
+class CustomBody extends StatelessWidget {
+  const CustomBody({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,32 +75,38 @@ class _CustomBody extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Card(
-            color: list[index]["color"],
-            child: Stack(
-              alignment: Alignment.bottomLeft,
-              children: [
-                SizedBox(
-                  height: 200,
-                  width: double.infinity,
-                  child: Image.asset(
-                    list[index]['image'],
-                    fit: BoxFit.scaleDown,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    list[index]['title'],
-                    style: const TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+          child: GestureDetector(
+            onTap: () {
+              // Manejar la selección del elemento de la lista
+              print("Elemento seleccionado: ${list[index]['title']}");
+            },
+            child: Card(
+              color: list[index]["color"],
+              child: Stack(
+                alignment: Alignment.bottomLeft,
+                children: [
+                  SizedBox(
+                    height: 200,
+                    width: double.infinity,
+                    child: Image.asset(
+                      list[index]['image'],
+                      fit: BoxFit.scaleDown,
                     ),
                   ),
-                )
-              ],
-            ), 
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      list[index]['title'],
+                      style: const TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         );
       },

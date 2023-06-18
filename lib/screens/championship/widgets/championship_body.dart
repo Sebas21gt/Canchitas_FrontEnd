@@ -20,6 +20,8 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
   // late List<ModelChampionship> championships;
   List<ModelChampionship> championships = []; // Lista de campeonatos
   List<ModelDisciplines> disciplines = [];
+  
+  late String disciplineName;
 
   @override
   void initState() {
@@ -60,17 +62,21 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
             itemBuilder: (context, index) {
               final championship = championships[index];
               // Buscar la disciplina por ID
-              final discipline = disciplines.firstWhere(
-                (discipline) => discipline.id == championship.disciplineId,
-                orElse: () => ModelDisciplines(id: 0, name: 'Otra disciplina'),
-              );
+              final discipline = championships[index].disciplineId!;
               // Asignar el icono según la disciplina
               IconData icon;
-              if (discipline.name?.toLowerCase() == 'futbol') {
+
+              if (discipline == 1) {
                 icon = Icons.sports_soccer;
-              } else if (discipline.name?.toLowerCase() == 'voley') {
+                disciplineName = "Fútbol";
+              } else if (discipline == 2) {
                 icon = Icons.sports_volleyball;
-              } else {
+                disciplineName = "Voleyball";
+              } else if (discipline == 3) {
+                icon = Icons.sports_basketball;
+                disciplineName = "Basketball";
+              }
+              else {
                 icon = Icons.sports;
               }
 
@@ -81,7 +87,7 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
                 child: ListTile(
                   leading: Icon(icon),
                   title: Text(championship.name!),
-                  subtitle: Text(discipline.name!),
+                  subtitle: Text(disciplineName),
                   onTap: () {
                     print("Obtener nombres de equipos");
                   }, // Mostrar la disciplina como subtítulo

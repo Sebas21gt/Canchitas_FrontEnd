@@ -47,10 +47,10 @@ class MyApp extends StatelessWidget {
         "/sports":(context) => const SportsScreen(),
         "/futsal":(context) => const FutsalScreen(),
 
-        "/test":(context) => const testScreem(), // TODO: Delete this
+        "/test":(context) => const TestScreen(),
       },
       // initialRoute: "/welcome",
-      initialRoute: "/menu",
+      initialRoute: "/test",
     );
   }
 }

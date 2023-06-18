@@ -1,96 +1,123 @@
 import 'package:canchitas/constants.dart';
-import 'package:canchitas/models/model_championship.dart';
-import 'package:canchitas/models/model_disciplines.dart';
+import 'package:canchitas/screens/sports/widgets/fusal_header.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 
-import 'controllers/user_service.dart';
-
-class testScreem extends StatelessWidget {
-  const testScreem({super.key});
+class TestScreen extends StatelessWidget {
+  const TestScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Test"),
-      ),
-      body: testBody(),
-    );
-  }
-}
-
-class testBody extends StatefulWidget {
-  const testBody({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<testBody> createState() => _testBodyState();
-}
-
-class _testBodyState extends State<testBody> {
-  List<ModelDisciplines>? _modelDisciplines;
-  ModelDisciplines? _selectedDiscipline;
-
-  @override
-  void initState() {
-    super.initState();
-    getDisciplines(); // Obtener los campeonatos al cargar el widget
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          DropdownButtonFormField<ModelDisciplines>(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: cPrimaryColor, width: 20),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              labelText: "Campeonato",
-              labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-              hintText: "Seleccione un campeonato",
-              hintStyle: TextStyle(
-                color: cTextColor,
-                fontFamily: "SportsBar",
-                fontSize: 18,
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: Icon(
-                Icons.sports,
-                color: cPrimaryColor,
-              ),
-            ),
-            onChanged: (ModelDisciplines? selectedChampionship) {
-              setState(() {
-                _selectedDiscipline = selectedChampionship;
-              });
+        leading: IconButton(
+          color: cBackgroundColor,
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        elevation: 0,
+        backgroundColor: cPrimaryColor,
+        actions: [
+          IconButton(
+            color: cBackgroundColor,
+            iconSize: 40,
+            icon: const Icon(Icons.playlist_add_outlined),
+            onPressed: () {
+              Navigator.pushNamed(context, "/championship_form");
             },
-            items: buildDropdownItems(),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          FutsalHeader(size: MediaQuery.of(context).size),
+          Expanded(
+            child: _GoogleMap(),
           ),
         ],
       ),
     );
   }
+}
 
-  Future<void> getDisciplines() async {
-    try {
-      _modelDisciplines = await UserService().getDisciplines();
-    } catch (e) {
-      // Manejar el error de la solicitud
+class _GoogleMap extends StatefulWidget {
+  const _GoogleMap({Key? key}) : super(key: key);
+
+  @override
+  _GoogleMapState createState() => _GoogleMapState();
+}
+
+class _GoogleMapState extends State<_GoogleMap> {
+  late GoogleMapController mapController;
+  TextEditingController searchController = TextEditingController();
+  List<Marker> markers = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GoogleMap(
+      onMapCreated: (controller) {
+        setState(() {
+          mapController = controller;
+        });
+      },
+      initialCameraPosition: CameraPosition(
+        target: LatLng(-16.2902, -63.5887), // Coordenadas del centro de Bolivia
+        zoom: 6, // Ajusta el nivel de zoom según tus necesidades
+      ),
+      markers: Set<Marker>.from(markers),
+    );
+  }
+
+  Future<void> _searchPlaces(String searchText) async {
+    final response = await GeocodingPlatform.instance
+        .locationFromAddress(searchText + ', Bolivia');
+    if (response.isNotEmpty) {
+      final location = response.first;
+      final latLng = LatLng(location.latitude!, location.longitude!);
+
+      mapController.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
+
+      final placemarks = await GeocodingPlatform.instance
+          .placemarkFromCoordinates(location.latitude!, location.longitude!);
+      if (placemarks.isNotEmpty) {
+        final placemark = placemarks.first;
+
+        setState(() {
+          markers = [
+            Marker(
+              markerId: MarkerId('searchResult'),
+              position: latLng,
+              infoWindow: InfoWindow(
+                  title: placemark.name ?? '',
+                  snippet: placemark.locality ?? ''),
+            ),
+          ];
+        });
+      }
     }
   }
 
-  List<DropdownMenuItem<ModelDisciplines>> buildDropdownItems() {
-    return _modelDisciplines?.map((championship) {
-          return DropdownMenuItem<ModelDisciplines>(
-            value: championship,
-            child: Text(championship.name ?? ''),
-          );
-        }).toList() ??
-        [];
+  void _onSearchButtonPressed() {
+    final searchText = searchController.text;
+    if (searchText.isNotEmpty) {
+      // Activa el campo de entrada de texto antes de realizar la búsqueda
+      FocusScope.of(context).requestFocus(FocusNode());
+      _searchPlaces(searchText);
+    }
+  }
+
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }
-
