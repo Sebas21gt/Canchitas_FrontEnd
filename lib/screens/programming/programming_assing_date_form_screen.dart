@@ -30,7 +30,7 @@ class ProgrammingAssingDateFormScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: const [
             Encabezado(),
             RegisterChampionshipForm(),
           ],

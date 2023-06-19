@@ -52,4 +52,5 @@ class UserService {
       throw Exception('Error en la solicitud de los campeonatos: $e');
     }
   }
+  
 }

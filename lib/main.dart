@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         "/test":(context) => const TestScreen(),
       },
       // initialRoute: "/welcome",
-      initialRoute: "/test",
+      initialRoute: "/menu",
     );
   }
 }

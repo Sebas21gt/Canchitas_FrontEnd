@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:canchitas/constants.dart';
 import 'package:canchitas/controllers/user_service.dart';
 import 'package:canchitas/models/model_championship.dart';
 import 'package:canchitas/models/model_disciplines.dart';
+import 'package:canchitas/models/model_teams_championship.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ChampionshipBody extends StatefulWidget {
@@ -17,10 +21,9 @@ class ChampionshipBody extends StatefulWidget {
 }
 
 class _ChampionshipBodyState extends State<ChampionshipBody> {
-  // late List<ModelChampionship> championships;
   List<ModelChampionship> championships = []; // Lista de campeonatos
   List<ModelDisciplines> disciplines = [];
-  
+
   late String disciplineName;
 
   @override
@@ -75,8 +78,7 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
               } else if (discipline == 3) {
                 icon = Icons.sports_basketball;
                 disciplineName = "Basketball";
-              }
-              else {
+              } else {
                 icon = Icons.sports;
               }
 
@@ -89,8 +91,8 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
                   title: Text(championship.name!),
                   subtitle: Text(disciplineName),
                   onTap: () {
-                    print("Obtener nombres de equipos");
-                  }, // Mostrar la disciplina como subtítulo
+                    getTeamNames(championship.id!);
+                  },
                 ),
               );
             },
@@ -99,4 +101,86 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
       ),
     );
   }
+
+  void getTeamNames(int championshipId) async {
+    try {
+      String url =
+          'http://192.168.1.54:8080/team/getTeamsChampionship/$championshipId';
+      Dio dio = Dio();
+      Response response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        List<dynamic> teamsData = response.data['data'];
+
+        Set<int> teamIds = teamsData.map<int>((teamData) {
+          if (teamData.containsKey('id')) {
+            return teamData['teamId'];
+          } else {
+            return 0;
+          }
+        }).toSet();
+
+        // Obtener los nombres de los equipos a partir de los IDs
+        List<String> teamNames = await fetchTeamNames(teamIds);
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Nombres de equipos'),
+              content: Column(
+                children: teamNames.map((teamName) => Text(teamName)).toList(),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cerrar'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        print(
+            'Error al obtener los equipos del campeonato. Código de estado: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error al obtener los nombres de los equipos: $e');
+    }
+  }
+
+  Future<List<String>> fetchTeamNames(Set<int> teamIds) async {
+  try {
+    String url = 'http://192.168.1.54:8080/team/';
+    Dio dio = Dio();
+    Response response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> teamsData = response.data['data'];
+
+      List<String> teams = [];
+      for (var teamData in teamsData) {
+        if (teamData.containsKey('id') && teamData.containsKey('name')) {
+          int teamId = teamData['id'];
+          String teamName = teamData['name'];
+
+          if (teamIds.contains(teamId)) {
+            String teamInfo = teamName;
+            teams.add(teamInfo);
+          }
+        }
+      }
+
+      return teams;
+    } else {
+      print('Error al obtener los equipos. Código de estado: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error al obtener los nombres de los equipos: $e');
+  }
+
+  return []; // Retorna una lista vacía en caso de error
+}
 }

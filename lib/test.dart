@@ -33,8 +33,8 @@ class TestScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          FutsalHeader(size: MediaQuery.of(context).size),
-          Expanded(
+          // FutsalHeader(size: MediaQuery.of(context).size),
+          const Expanded(
             child: _GoogleMap(),
           ),
         ],
@@ -68,7 +68,7 @@ class _GoogleMapState extends State<_GoogleMap> {
           mapController = controller;
         });
       },
-      initialCameraPosition: CameraPosition(
+      initialCameraPosition: const CameraPosition(
         target: LatLng(-16.2902, -63.5887), // Coordenadas del centro de Bolivia
         zoom: 6, // Ajusta el nivel de zoom según tus necesidades
       ),
@@ -78,15 +78,15 @@ class _GoogleMapState extends State<_GoogleMap> {
 
   Future<void> _searchPlaces(String searchText) async {
     final response = await GeocodingPlatform.instance
-        .locationFromAddress(searchText + ', Bolivia');
+        .locationFromAddress('$searchText, Bolivia');
     if (response.isNotEmpty) {
       final location = response.first;
-      final latLng = LatLng(location.latitude!, location.longitude!);
+      final latLng = LatLng(location.latitude, location.longitude);
 
       mapController.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
 
       final placemarks = await GeocodingPlatform.instance
-          .placemarkFromCoordinates(location.latitude!, location.longitude!);
+          .placemarkFromCoordinates(location.latitude, location.longitude);
       if (placemarks.isNotEmpty) {
         final placemark = placemarks.first;
 
