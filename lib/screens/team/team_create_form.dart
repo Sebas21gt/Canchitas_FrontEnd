@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../constants.dart';
 
-class ChampionshipFormScreen extends StatelessWidget {
-  const ChampionshipFormScreen({Key? key}) : super(key: key);
+class TeamCreateForm extends StatelessWidget {
+  const TeamCreateForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ChampionshipFormScreen extends StatelessWidget {
         child: Column(
           children: [
             Encabezado(),
-            RegisterChampionshipForm(),
+            CreateTeamForm(),
           ],
         ),
       ),
@@ -32,7 +32,7 @@ class Encabezado extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.only(top: 40),
-      height: size.height * 0.20,
+      height: size.height * 0.30,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: cPrimaryColor,
@@ -43,10 +43,10 @@ class Encabezado extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 9),
+          const SizedBox(height: 40),
           Center(
             child: Text(
-              "Registrar un Campeonato",
+              "Registrar \nun Equipo",
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                     color: Colors.white,
                     fontSize: 50,
@@ -61,37 +61,22 @@ class Encabezado extends StatelessWidget {
   }
 }
 
-Items item1 = Items(
-  title: "Futbol",
-);
-
-Items item2 = Items(
-  title: "Futsal",
-);
-
-Items item3 = Items(
-  title: "VoleyBall",
-);
-
-Items item4 = Items(
-  title: "BasketBall",
-);
-
-class RegisterChampionshipForm extends StatefulWidget {
-  const RegisterChampionshipForm({Key? key}) : super(key: key);
+class CreateTeamForm extends StatefulWidget {
+  const CreateTeamForm({Key? key}) : super(key: key);
 
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  _CreateTeamFormState createState() => _CreateTeamFormState();
 }
 
-class _RegisterFormState extends State<RegisterChampionshipForm> {
+class _CreateTeamFormState extends State<CreateTeamForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final _nameChampionshipController = TextEditingController();
-  final _dateStartController = TextEditingController();
-  final _dateFinishController = TextEditingController();
-  final _disciplineController = TextEditingController();
-  List<Items> listDisciplinas = [item1, item2, item3, item4];
+  final _nameController = TextEditingController();
+  final _shieldPhotographyController = TextEditingController();
+  final _delegateNameController = TextEditingController();
+
+  int _selectedDiscipline =
+      1; // Valor predeterminado de la disciplina seleccionada
 
   @override
   Widget build(BuildContext context) {
@@ -110,15 +95,15 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
             Column(
               children: [
                 TextFormField(
-                  controller: _nameChampionshipController,
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: cPrimaryColor, width: 20),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: "Nombre del Campeonato",
+                    labelText: "Nombre del Equipo",
                     labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese el nombre del campeonato",
+                    hintText: "Ingrese el nombre del equipo",
                     hintStyle: TextStyle(
                         color: cTextColor,
                         fontFamily: "SportsBar",
@@ -132,56 +117,56 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _dateStartController,
+                  controller: _shieldPhotographyController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: cPrimaryColor, width: 20),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: "Fecha de Inicio",
+                    labelText: "Fotografía del Escudo",
                     labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese la fecha de inicio",
+                    hintText: "Ingrese la fotografía del escudo",
                     hintStyle: TextStyle(
                         color: cTextColor,
                         fontFamily: "SportsBar",
                         fontSize: 18),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     suffixIcon: Icon(
-                      Icons.date_range_rounded,
+                      Icons.image_rounded,
                       color: cPrimaryColor,
                     ),
                   ),
-                  onTap: () {
-                    _callDatePickerStart();
-                  },
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _dateFinishController,
+                  controller: _delegateNameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: cPrimaryColor, width: 20),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: "Fecha de Finalizacion",
+                    labelText: "Nombre del Delegado",
                     labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Ingrese la fecha de finalizacion",
+                    hintText: "Ingrese el nombre del delegado",
                     hintStyle: TextStyle(
                         color: cTextColor,
                         fontFamily: "SportsBar",
                         fontSize: 18),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     suffixIcon: Icon(
-                      Icons.date_range_rounded,
+                      Icons.person_rounded,
                       color: cPrimaryColor,
                     ),
                   ),
-                  onTap: () {
-                    _callDatePickerFinish();
-                  },
                 ),
                 const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
+                DropdownButtonFormField<int>(
+                  value: _selectedDiscipline,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDiscipline = value!;
+                    });
+                  },
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: cPrimaryColor, width: 20),
@@ -189,39 +174,41 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
                     ),
                     labelText: "Disciplina",
                     labelStyle: TextStyle(color: cPrimaryColor, fontSize: 20),
-                    hintText: "Seleccione una disciplina",
-                    hintStyle: TextStyle(
-                        color: cTextColor,
-                        fontFamily: "SportsBar",
-                        fontSize: 18),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     suffixIcon: Icon(
-                      Icons.sports,
+                      Icons.sports_soccer_rounded,
                       color: cPrimaryColor,
                     ),
                   ),
-                  items: listDisciplinas
-                      .map((item) => DropdownMenuItem<String>(
-                            child: Text(item.title),
-                            value: item.title,
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _disciplineController.text = value!;
-                    });
-                  },
+                  items: const [
+                    DropdownMenuItem<int>(
+                      value: 1,
+                      child: Text("Fútbol"),
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2,
+                      child: Text("VoleyBall"),
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 3,
+                      child: Text("BasketBall"),
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 4,
+                      child: Text("Futsal"),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 40),
                 _CustomButton(
-                  text: "Registrarse",
+                  text: "Crear Equipo",
                   colorBorder: Colors.white,
                   colorText: Colors.white,
                   colorBackground: cPrimaryColor,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      _registerChampionship();
+                      _createTeam();
                     }
                   },
                 ),
@@ -233,129 +220,57 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
     );
   }
 
-  void _callDatePickerStart() async {
-    var selectedDate = await getDatePickerStart();
-    setState(() {
-      _dateStartController.text = selectedDate.toString();
-    });
-  }
+  void _createTeam() async {
+    try {
+      String url = 'http://192.168.1.54:8080/team';
+      var body = {
+        "name": _nameController.text,
+        "shieldPhotography": _shieldPhotographyController.text,
+        "delegateName": _delegateNameController.text,
+        "disciplines": [_selectedDiscipline]
+      };
 
-  void _callDatePickerFinish() async {
-    var selectedDate = await getDatePickerFinish();
-    setState(() {
-      _dateFinishController.text = selectedDate.toString();
-    });
-  }
-
-  Future<DateTime?> getDatePickerStart() {
-    return showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
-      lastDate: DateTime(2025),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light().copyWith(
-              primary: cPrimaryColor,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-  }
-
-  Future<DateTime?> getDatePickerFinish() {
-    return showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
-      lastDate: DateTime(2025),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light().copyWith(
-              primary: cPrimaryColor,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-  }
-
-  void _registerChampionship() async {
-  try {
-    String url = 'http://192.168.1.54:8080/championship';
-    var body = {
-      "name": _nameChampionshipController.text,
-      "startDate": _formatDateTime(_dateStartController.text),
-      "finalDate": _formatDateTime(_dateFinishController.text),
-      "disciplineId": _getDisciplineId(_disciplineController.text),
-    };
-
-    final dio = Dio();
-    final response = await dio.post(
-      url,
-      data: jsonEncode(body),
-    );
-
-    if (kDebugMode) {
-      print(response.statusCode);
-    }
-
-    if (response.statusCode == 201) {
-      // La solicitud fue exitosa
-      var data = response.data;
-      // ignore: avoid_print
-      print(data);
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Registro Exitoso'),
-            content: const Text('El campeonato se registró correctamente.'),
-            actions: [
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.pushNamed(context, '/championship');
-                },
-              ),
-            ],
-          );
-        },
+      final dio = Dio();
+      final response = await dio.post(
+        url,
+        data: jsonEncode(body),
       );
-    }
-  } catch (e) {
-    if (kDebugMode) {
-      print(e);
-      print("Error en el registro");
-    }
-  }
-}
 
+      if (kDebugMode) {
+        print(response.statusCode);
+      }
 
-  String _formatDateTime(String dateTime) {
-    DateTime parsedDateTime = DateTime.parse(dateTime);
-    String formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(parsedDateTime);
-    return formattedDateTime;
-  }
+      if (response.statusCode == 201) {
+        // La solicitud fue exitosa
+        var data = response.data;
+        // ignore: avoid_print
+        print(data);
 
-  int _getDisciplineId(String discipline) {
-    if (discipline == "Futbol") {
-      return 1;
-    } else if (discipline == "VoleyBall") {
-      return 2;
-    } else if (discipline == "BasketBall") {
-      return 3;
-    } else if (discipline == "Futsal") {
-      return 4;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Equipo Creado'),
+              content: const Text('El equipo se ha creado correctamente.'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, '/team');
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+        print("Error al crear el equipo");
+      }
     }
-    return 0;
   }
 }
 

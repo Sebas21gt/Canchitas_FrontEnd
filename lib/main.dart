@@ -8,6 +8,7 @@ import 'package:canchitas/screens/programming/programming_form_screen.dart';
 import 'package:canchitas/screens/programming/programming_screen.dart';
 import 'package:canchitas/screens/sports/futsal_screen.dart';
 import 'package:canchitas/screens/sports/sports_screen.dart';
+import 'package:canchitas/screens/team/team_create_form.dart';
 import 'package:canchitas/screens/team/team_screen.dart';
 import 'package:canchitas/screens/welcome/intro_screen.dart';
 import 'package:canchitas/screens/welcome/login_screen.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         "/registerScreen": (context) => const RegisterScreen(),
         "/menu":(context) => const MenuScreen(),
         "/team":(context) => const TeamScreen(),
+        "/team_create":(context) => const TeamCreateForm(),
         "/championship":(context) => const ChampionshipScreen(),
         "/championship_form":(context) => const ChampionshipFormScreen(),
         "/programming":(context) => const ProgrammingScreen(),

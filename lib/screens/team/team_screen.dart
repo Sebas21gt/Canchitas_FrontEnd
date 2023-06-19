@@ -77,8 +77,17 @@ class CustomBody extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             onTap: () {
-              // Manejar la selección del elemento de la lista
-              print("Elemento seleccionado: ${list[index]['title']}");
+              // Obtener el título del elemento seleccionado
+              String title = list[index]['title'];
+
+              // Navegar a la ruta correspondiente según el título
+              if (title == "Crear Equipo") {
+                Navigator.pushNamed(context, '/team_create');
+              } else if (title == "Unirse a Equipo") {
+                Navigator.pushNamed(context, '/team_create');
+              } else if (title == "Proximo Partido") {
+                Navigator.pushNamed(context, '/team_create');
+              }
             },
             child: Card(
               color: list[index]["color"],

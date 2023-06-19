@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:canchitas/constants.dart';
 import 'package:canchitas/controllers/user_service.dart';
 import 'package:canchitas/models/model_championship.dart';
@@ -78,6 +76,9 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
               } else if (discipline == 3) {
                 icon = Icons.sports_basketball;
                 disciplineName = "Basketball";
+              } else if (discipline == 4) {
+                icon = Icons.sports_soccer;
+                disciplineName = "Futsal";
               } else {
                 icon = Icons.sports;
               }
@@ -152,35 +153,36 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
   }
 
   Future<List<String>> fetchTeamNames(Set<int> teamIds) async {
-  try {
-    String url = 'http://192.168.1.54:8080/team/';
-    Dio dio = Dio();
-    Response response = await dio.get(url);
+    try {
+      String url = 'http://192.168.1.54:8080/team/';
+      Dio dio = Dio();
+      Response response = await dio.get(url);
 
-    if (response.statusCode == 200) {
-      List<dynamic> teamsData = response.data['data'];
+      if (response.statusCode == 200) {
+        List<dynamic> teamsData = response.data['data'];
 
-      List<String> teams = [];
-      for (var teamData in teamsData) {
-        if (teamData.containsKey('id') && teamData.containsKey('name')) {
-          int teamId = teamData['id'];
-          String teamName = teamData['name'];
+        List<String> teams = [];
+        for (var teamData in teamsData) {
+          if (teamData.containsKey('id') && teamData.containsKey('name')) {
+            int teamId = teamData['id'];
+            String teamName = teamData['name'];
 
-          if (teamIds.contains(teamId)) {
-            String teamInfo = teamName;
-            teams.add(teamInfo);
+            if (teamIds.contains(teamId)) {
+              String teamInfo = teamName;
+              teams.add(teamInfo);
+            }
           }
         }
+
+        return teams;
+      } else {
+        print(
+            'Error al obtener los equipos. Código de estado: ${response.statusCode}');
       }
-
-      return teams;
-    } else {
-      print('Error al obtener los equipos. Código de estado: ${response.statusCode}');
+    } catch (e) {
+      print('Error al obtener los nombres de los equipos: $e');
     }
-  } catch (e) {
-    print('Error al obtener los nombres de los equipos: $e');
-  }
 
-  return []; // Retorna una lista vacía en caso de error
-}
+    return []; // Retorna una lista vacía en caso de error
+  }
 }
