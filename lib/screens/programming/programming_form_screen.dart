@@ -264,7 +264,7 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
     } // Obtener el ID del campeonato seleccionado
 
     try {
-      final url = 'http://192.168.1.54:8080/programming';
+      final url = 'http://192.168.66.30:8080/programming';
       var headers = {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       };

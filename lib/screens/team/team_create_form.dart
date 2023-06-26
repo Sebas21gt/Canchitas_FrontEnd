@@ -222,7 +222,7 @@ class _CreateTeamFormState extends State<CreateTeamForm> {
 
   void _createTeam() async {
     try {
-      String url = 'http://192.168.1.54:8080/team';
+      String url = 'http://192.168.66.30:8080/team';
       var body = {
         "name": _nameController.text,
         "shieldPhotography": _shieldPhotographyController.text,

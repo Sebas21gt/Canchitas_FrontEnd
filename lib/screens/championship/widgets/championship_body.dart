@@ -106,7 +106,7 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
   void getTeamNames(int championshipId) async {
     try {
       String url =
-          'http://192.168.1.54:8080/team/getTeamsChampionship/$championshipId';
+          'http://192.168.66.30:8080/team/getTeamsChampionship/$championshipId';
       Dio dio = Dio();
       Response response = await dio.get(url);
 
@@ -154,7 +154,7 @@ class _ChampionshipBodyState extends State<ChampionshipBody> {
 
   Future<List<String>> fetchTeamNames(Set<int> teamIds) async {
     try {
-      String url = 'http://192.168.1.54:8080/team/';
+      String url = 'http://192.168.66.30:8080/team/';
       Dio dio = Dio();
       Response response = await dio.get(url);
 

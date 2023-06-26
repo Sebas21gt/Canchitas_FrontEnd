@@ -224,7 +224,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void _register() async {
     try {
-      String url = 'http://192.168.1.54:8080/user/register';
+      String url = 'http://192.168.66.30:8080/user/register';
       var headers = {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       };

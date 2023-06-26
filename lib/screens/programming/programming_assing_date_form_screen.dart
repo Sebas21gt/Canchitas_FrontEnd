@@ -366,7 +366,7 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
       final int numDate =
           int.tryParse(_numDatesChampionshipController.text) ?? 0;
 
-      final url = 'http://192.168.1.54:8080/programming/assign-date';
+      final url = 'http://192.168.66.30:8080/programming/assign-date';
       final headers = {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       };

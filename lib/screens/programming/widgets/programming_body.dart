@@ -22,7 +22,7 @@ class _ProgrammingBodyState extends State<ProgrammingBody> {
     final dio = Dio();
     try {
       final response = await dio
-          .get('http://192.168.1.54:8080/programming/view-programming-date/5/1');
+          .get('http://192.168.66.30:8080/programming/view-programming-date/5/1');
       final responseData = response.data;
 
       if (response.statusCode == 200) {

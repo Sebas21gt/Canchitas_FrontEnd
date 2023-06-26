@@ -287,7 +287,7 @@ class _RegisterFormState extends State<RegisterChampionshipForm> {
 
   void _registerChampionship() async {
   try {
-    String url = 'http://192.168.1.54:8080/championship';
+    String url = 'http://192.168.66.30:8080/championship';
     var body = {
       "name": _nameChampionshipController.text,
       "startDate": _formatDateTime(_dateStartController.text),

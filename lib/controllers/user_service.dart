@@ -10,7 +10,7 @@ final dio = Dio();
 class UserService {
   Future<List<ModelChampionship>> getChampionships() async {
     try {
-      final url = 'http://192.168.1.54:8080/championship';
+      final url = 'http://192.168.66.30:8080/championship';
       final response = await dio.get(url);
       if (response.statusCode == 200) {
         // La solicitud fue exitosa
@@ -32,7 +32,7 @@ class UserService {
 
   Future<List<ModelDisciplines>> getDisciplines() async {
     try {
-      final url = 'http://192.168.1.54:8080/discipline';
+      final url = 'http://192.168.66.30:8080/discipline';
       final response = await dio.get(url);
       if (response.statusCode == 200) {
         // La solicitud fue exitosa
